@@ -65,6 +65,18 @@ app.get('/write', (요청, 응답)=>{
   응답.render('write');
 })
 
+
+
+
 app.post('/board/write',(요청,응답)=>{
-  console.log(요청,body)
+  const {
+    body: { title, contents, author,board_date },
+  } = 요청;
+  const post = post.create({
+    title,
+    contents,
+    author,
+    board_date
+  });
 })
+

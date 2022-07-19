@@ -14,7 +14,7 @@ const commentSchema = new Schema({
     comment_date: {type: String, required: true}
 })
  
-const boardSchema = new Schema({
+const boardSchema = new Schema({  //새로운 보드를 생성할때 보는 스키마
     title: {
         type : String,
         required : true

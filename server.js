@@ -68,15 +68,24 @@ app.get('/write', (요청, 응답)=>{
 
 
 
+
+
 app.post('/board/write',(요청,응답)=>{
-  const {
-    body: { title, contents, author,board_date },
-  } = 요청;
-  const post = post.create({
-    title,
-    contents,
-    author,
-    board_date
+  const date = new Date();
+  //board.js의 date를 여기서 수정함
+  const dateformat = date.toLocaleString();//이쁘게 날짜가 찍히는 함수 toLocaleString
+
+  let board = new Board();
+  board.title = 요청.body.title;//board스키마의 title == 요청.body.title
+  board.contents = 요청.body.contents;
+  board.author = 요청.body.author;
+  board.board_date = dateformat; //요청이 들어온 시간은 위에서 만든 시간.
+
+  board.save(function (에러) { //save는 db에 담는 함수
+    if(에러){
+      console.log(에러);
+      응답.send(board)
+    }
+    응답.redirect("/index");
   });
 })
-

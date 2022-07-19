@@ -46,21 +46,25 @@
         console.log("button clicked");
 
         $.ajax({
-          method: 'get',
+          method: 'set',
           url: '/detail/' + 글번호
           //메소드는 get == 불러오는 메소드
 
         })
         .done(function (결과) {
+          const date = new Date();
+          //board.js의 date를 여기서 수정함
+          const dateformat = date.toLocaleString();//이쁘게 날짜가 찍히는 함수 toLocaleString
 
-          //링크는 detail+글번호의 형식으로 페이지를 이동한다.
-        })
-        .fail(function (a, b, c) {
-          //오류, 실패시 띄울 함수인데 비어있네
+          let board = new Board();
+          board.title = 요청.body.title;//board스키마의 title == 요청.body.title
+          board.contents = 요청.body.contents;
+          board.author = 요청.body.author;
+          board.board_date = dateformat; //요청이 들어온 시간은 위에서 만든 시간.
 
-        });
+       
 
-      })
+      })})
 
       </script>
 </body>

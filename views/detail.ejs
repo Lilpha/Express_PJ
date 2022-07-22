@@ -69,6 +69,13 @@
               <%=board.contents%>
             </td>
           </tr>
+          <tr>
+            <td colspan="4" class="btn-section">
+              <button class="btn btn-danger delete" data-id="<%= board._id %>">삭제</button>
+              <button class="btn btn-success edit" data-id="<%= board._id %>">수정</button>
+              <!--수정 버튼을 누르면 board._id 를 get 해옴, 버튼이 있던 board에 있는 id를 이용해 write.ejs에 id를 넣어 edit.던fmf aksemfdjdha-->
+            </td>
+          </tr>
         </tbody>
 
       </table>
@@ -79,8 +86,40 @@
       crossorigin="anonymous"></script>
 
     <script>
+$('.edit').click(function (e) {
+        let 글번호 = e.target.dataset.id;
+        //글번호는 click을 실행한 버튼의(e) target이용해 dataset id를 추출
 
-      
+        $.ajax({
+          method: 'get',
+          url: '/edit/' + 글번호
+        }).done(function (결과) {
+          location.href = '/edit/' + 글번호;})
+        .fail(function (a, b, c) {
+          //오류, 실패시 띄울 함수인데 비어있네
+
+        });
+
+      })
+
+
+$('.delete').click(function (e) {
+        let 글번호 = e.target.dataset.id;
+        //글번호는 click을 실행한 버튼의(e) target이용해 dataset id를 추출
+
+        $.ajax({
+          method: 'get',
+          url: '/index',
+        })
+        .done(function (결과) {
+          location.href = '/index';})
+        .fail(function (a, b, c) {
+          //오류, 실패시 띄울 함수인데 비어있네
+
+        })
+
+      })
+    
     </script>
 </body>
 

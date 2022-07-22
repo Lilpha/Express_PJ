@@ -65,17 +65,51 @@ app.get('/write', (요청, 응답)=>{
   응답.render('write');
 })
 
+app.get('/edit/:id', (요청, 응답)=>{
+  Board.findOne({_id:요청.params.id}, (에러,결과)=>{
+    응답.render('edit',{board:결과});
+   })
+})
 
+app.delete('/delete', (요청, 결과)=>{
+  console.log(요청.body)
+  console.log(요청.params.id)
+  Board.deleteOne({Boarde}, function(에러){
+    console.log("삭제중 에러발생");
+  })
+  
+  결과.redirect("/index");
+  //삭제 버튼을 누르면 삭제 후 인덱스로
+})
 
+app.put('/edit', function(요청, 응답){
+  console.log(요청.body)
+  const author = 요청.body.author
+  const contents = 요청.body.contents
+  const title = 요청.body.title
+  const board_id = 요청.body.id
 
-
+  Board.findOneAndUpdate({_id:board_id}, 
+    { $set: {
+      author : author,
+      contents : contents,
+      title : title
+    }}, function(에러, 결과){
+      if(에러){
+        console.log(에러);
+        응답.sendStatus(500);
+      }
+      응답.sendStatus(200);
+      console.log(결과)
+    })
+})
 
 app.post('/board/write',(요청,응답)=>{
   const date = new Date();
-  //board.js의 date를 여기서 수정함
+  // 데이터 = 새 데이터
   const dateformat = date.toLocaleString();//이쁘게 날짜가 찍히는 함수 toLocaleString
 
-  let board = new Board();
+  let board = new Board(); //새 보드 생성
   board.title = 요청.body.title;//board스키마의 title == 요청.body.title
   board.contents = 요청.body.contents;
   board.author = 요청.body.author;
@@ -86,6 +120,7 @@ app.post('/board/write',(요청,응답)=>{
       console.log(에러);
       응답.send(board)
     }
-    응답.redirect("/index");
+    응답.redirect("/index"); //저장 후 /index로 돌아감
   });
 })
+
